@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 
-ALLALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['dbmsdeplaoylive.onrender.com', 'localhost', '127.0.0.1']
 
 
 
