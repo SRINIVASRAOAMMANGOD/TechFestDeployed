@@ -1,0 +1,33 @@
+{% extends 'festapp/base.html' %}
+
+{% block content %}
+<h2>Organizers</h2>
+<a href="{% url 'organizer_add' %}" class="btn btn-success mb-2">Add Organizer</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>EVENT</th>
+            <th>PHONR NUMBER</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for org in object_list %}
+        <tr>
+            <td>{{ org.id }}</td>
+            <td>{{ org.name }}</td>
+            <td>{{ org.event.title }}</td>
+            <td>{{ org.phone }}</td>
+            <td>
+                <a href="{% url 'organizer_edit' org.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'organizer_delete' org.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No organizers found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'festapp/base.html' %}
+
+{% block content %}
+<h2>Winners</h2>
+<a href="{% url 'winner_add' %}" class="btn btn-success mb-2">Add Winner</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>EVENT</th>
+            <th>STUDENT</th>
+            <th>POSITION</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for win in object_list %}
+        <tr>
+            <td>{{ win.id }}</td>
+            <td>{{ win.event.title }}</td>
+            <td>{{ win.student.name }}</td>
+            <td>{{ win.position }}</td>
+            <td>
+                <a href="{% url 'winner_edit' win.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'winner_delete' win.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No winners found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

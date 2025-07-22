@@ -1,0 +1,93 @@
+{% extends 'festapp/base.html' %}
+
+{% block content %}
+<h1 class="text-center mb-4">Welcome to the Tech Fest Management System</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    <!-- Card: Departments -->
+    <div class="col">
+        <a href="{% url 'department_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">📚 Departments</h5>
+                    <p class="card-text">Manage academic departments.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Students -->
+    <div class="col">
+        <a href="{% url 'student_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">🎓 Students</h5>
+                    <p class="card-text">View and register students.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Venues -->
+    <div class="col">
+        <a href="{% url 'venue_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">🏛️ Venues</h5>
+                    <p class="card-text">Manage event venues.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Events -->
+    <div class="col">
+        <a href="{% url 'event_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">🎉 Events</h5>
+                    <p class="card-text">Add and schedule events.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Registrations -->
+    <div class="col">
+        <a href="{% url 'registration_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">📝 Registrations</h5>
+                    <p class="card-text">Track participant registrations.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Winners -->
+    <div class="col">
+        <a href="{% url 'winner_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">🏆 Winners</h5>
+                    <p class="card-text">View winners list.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card: Organizers -->
+    <div class="col">
+        <a href="{% url 'organizer_list' %}" class="text-decoration-none text-dark">
+            <div class="card h-100 text-center shadow-sm hover-shadow">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍💼 Organizers</h5>
+                    <p class="card-text">Manage organizing team.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'festapp/base.html' %}
+
+{% block content %}
+<h2>Registrations</h2>
+<a href="{% url 'registration_add' %}" class="btn btn-success mb-2">Add Registration</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>STUDENT</th>
+            <th>EVENT</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reg in object_list %}
+        <tr>
+            <td>{{ reg.id }}</td>
+            <td>{{ reg.student.name }}</td>
+            <td>{{ reg.event.title }}</td>
+            <td>
+                <a href="{% url 'registration_edit' reg.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'registration_delete' reg.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No registrations found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
