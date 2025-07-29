@@ -3,9 +3,11 @@
 {% block content %}
 <h2 class="text-center my-4">Venue List</h2>
 
+{% if user.is_staff or user.is_superuser %}
 <div class="text-end mb-3">
     <a href="{% url 'venue_add' %}" class="btn btn-primary">Add Venue</a>
 </div>
+{% endif %}
 
 <table class="table table-bordered table-hover">
     <thead class="table-light">
@@ -14,6 +16,9 @@
             <th>NAME</th>
             <th>LOCATION</th>
             <th>CAPACITY</th>
+            {% if user.is_staff or user.is_superuser %}
+            <th>ACTIONS</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -23,10 +28,16 @@
             <td>{{ venue.name }}</td>
             <td>{{ venue.location }}</td>
             <td>{{ venue.capacity }}</td>
+            {% if user.is_staff or user.is_superuser %}
+            <td>
+                <a href="{% url 'venue_edit' venue.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'venue_delete' venue.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+            {% endif %}
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4" class="text-center">NO VENUE REGISTERED.</td>
+            <td colspan="5" class="text-center">NO VENUE REGISTERED.</td>
         </tr>
         {% endfor %}
     </tbody>

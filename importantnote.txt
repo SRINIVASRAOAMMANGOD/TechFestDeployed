@@ -1,0 +1,60 @@
+for deplayment used console aiven.io used websithosting account and connect to workspace
+
+
+
+Service URI
+mysql://
+CLICK_TO:REVEAL_PASSWORD
+@mysql-1fd557a9-websitehosting0123-8ab2.f.aivencloud.com:27479/defaultdb?ssl-mode=REQUIRED
+
+Database name
+defaultdb
+
+Host
+mysql-1fd557a9-websitehosting0123-8ab2.f.aivencloud.com
+
+Port
+27479
+
+User
+avnadmin
+
+Password
+AVNS_ywkfGVI8ZSYmi8BnPpj
+
+
+
+SSL mode
+REQUIRED
+
+CA certificate
+
+-----BEGIN CERTIFICATE-----
+MIIEUDCCArigAwIBAgIUR7k0n6HWighM+zJ6ZDSql5e2L00wDQYJKoZIhvcNAQEM
+BQAwQDE+MDwGA1UEAww1Y2IyYmY1YTMtNzJlNi00M2ZjLTljY2EtMjVmMWViZmI1
+MGQwIEdFTiAxIFByb2plY3QgQ0EwHhcNMjUwNzIyMTA1NDQwWhcNMzUwNzIwMTA1
+NDQwWjBAMT4wPAYDVQQDDDVjYjJiZjVhMy03MmU2LTQzZmMtOWNjYS0yNWYxZWJm
+YjUwZDAgR0VOIDEgUHJvamVjdCBDQTCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCC
+AYoCggGBAMwOLNb2Y5CZR1gdnf9uDTZyMkAIG8xzoL6Y1iZwRgrCWxMPjXAgNubR
+iIDd/DqO2Py4EeecxFpQre00OhD+TjSLm6o/4KR/bjV9FaoL8rrCaps748RV8KTX
+kT+scN+RNlsZEj5FTMuBLo1acoiUHkt3CPl5dLl4/Zbt9frKCuO0OLF6Qy/5+KWP
+2oKXxoPezbxtz+8C2jNraGN0NE1dgBipqJZ0NGKNQztS5DrNAbgfxl/gW/O64v/S
+kvzR8wNb4fsUjdOUBb65r9pFoogzTY0nrqugQdyZhw/f9m+0/QMrtKwgJVz/Yc09
+3aibuyiTCREoWIZqLIapxxumeroVfPgqceVpLqpvH9edNsmxcO9ft76SuZJpRDkY
+YyzQS1cGmTCmgit1j4XY2MuwMdulD7juhhlP7sVUy0heegdRqBs6TZjGJfmwbRxq
+GFy5O7KORrMC5K0fA0koyxTSkeKbrzW8IAAXU0fLqxNPNg4xXWM+5k4wn5qKHH0T
+z/awpKSYrQIDAQABo0IwQDAdBgNVHQ4EFgQUqkWOWBpF0ucd14kGXcB0urgi92Qw
+EgYDVR0TAQH/BAgwBgEB/wIBADALBgNVHQ8EBAMCAQYwDQYJKoZIhvcNAQEMBQAD
+ggGBAJofKhnyduyj9hNCkdGTTFuGn9J+iFAOZXUkPpXQcY1m4Z44dsBpNHbpkKqT
+sZPFtbDTgMksLTL8DsqI77Jh7rmCzvKoCDXP3cvr/dYtDjTnJNoDve2GtkFNjExr
+SxItT0zHv2nCw69EkQlu1dBNqxFMSz1kmo42X5UZ10TNH18AKqTJwsGXFgWaWp7S
+vwE0SY6CJTCj4VxB8pAdKVAR6WgYShgvoeYq5nvTjPOdHu1WKUgOLm1YMzomped1
+kPOXipkS9VUJKpFZs6qL9YCewreXZq6bq3fI+mI9eiSWNzdexgq8wPiJC9I/moWY
+02iL+wsSerlvXsoleMHpyU507T7/3zP0b01KeAycyFFatezA28XB5y4R5DmS8Yvl
++OHkN0512xMZNJpoDC3Pgm+GZYzWbunwjBnk/lWvSgp4CpggJEeI3pBTruo4D7Cy
+x/qdDsmWFX3ds/2QCYpdyRrt0xAJun+57dQ7Wfc8+Ixj0ixL2o4vOikRkOOpStTV
+NcUEgg==
+-----END CERTIFICATE-----
+
+
+

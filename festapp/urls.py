@@ -1,9 +1,11 @@
 from django.urls import path
 from . import views
+from .views import user_logout
 from django.views.generic import TemplateView
 urlpatterns = [
+    path('logout/', user_logout, name='logout'),
     path('', TemplateView.as_view(template_name='festapp/index.html'), name='index'),
-
+    path('login/', views.user_login, name='login'),
     # Department
     path('departments/', views.DepartmentListView.as_view(), name='department_list'),
     #path('departments/', views.department_list, name='department_list'),
