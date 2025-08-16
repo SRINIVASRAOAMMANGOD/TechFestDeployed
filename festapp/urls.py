@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
 from .views import user_logout
+from .views import health_check
 from django.views.generic import TemplateView
 urlpatterns = [
+        path('health/', health_check, name='health-check'),
     path('logout/', user_logout, name='logout'),
     path('', TemplateView.as_view(template_name='festapp/index.html'), name='index'),
     path('login/', views.user_login, name='login'),

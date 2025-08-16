@@ -7,6 +7,12 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+# for keeping this thing alive in the codebase in render
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 def user_logout(request):
     logout(request)
     return redirect('index') 
