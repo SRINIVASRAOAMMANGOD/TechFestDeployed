@@ -5,7 +5,7 @@ The system allows departments to create events, students to register, organizers
 It demonstrates DBMS concepts with MySQL integration and CRUD operations.
 
 ```
-
+## Deployed link https://dbmsdeplaoylive.onrender.com/
 ## Features
 ```
 - Department Management (Add / Edit / Delete Departments)
