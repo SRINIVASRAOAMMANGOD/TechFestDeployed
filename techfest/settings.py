@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'techfest.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+#used websitehosting mail
 DATABASES = {
     'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
