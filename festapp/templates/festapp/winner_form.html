@@ -1,8 +1,42 @@
-{% extends 'festapp/base.html' %}
+Users\HP\Desktop\techfest\festapp\templates\festapp\winner_form.html
+{% extends "festapp/base.html" %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Winner</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<h2>Add Winner</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="event_id">Event</label>
+        <select name="event_id" id="event_id" class="form-control" required>
+            <option value="">Select Event</option>
+            {% for event in events %}
+            <option value="{{ event.0 }}">{{ event.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="student_id">Student</label>
+        <select name="student_id" id="student_id" class="form-control" required>
+            <option value="">Select Student</option>
+            {% for student in students %}
+            <option value="{{ student.0 }}">{{ student.1 }} ({{ student.2 }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="position">Position</label>
+        <select name="position" id="position" class="form-control" required>
+            <option value="1">First</option>
+            <option value="2">Second</option>
+            <option value="3">Third</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'winner_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
 {% endblock %}

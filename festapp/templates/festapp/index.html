@@ -88,6 +88,19 @@
             </div>
         </a>
     </div>
+    {% if user.is_authenticated and user.is_staff %}
+<div class="col-md-4">
+    <div class="card text-center shadow-lg">
+        <div class="card-body">
+            <h5 class="card-title">Export Data</h5>
+            <p class="card-text">Download CSV files of Departments, Students, Events, etc.</p>
+            <a href="{% url 'export_data' %}" class="btn btn-primary">
+                <i class="fas fa-download"></i> Export
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 </div>
 {% endblock %}

@@ -1,8 +1,26 @@
-{% extends 'festapp/base.html' %}
+{% extends "festapp/base.html" %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Department</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<div class="container mt-4">
+    <h2>{% if department %}Edit{% else %}Add{% endif %} Department</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group mb-3">
+            <label for="name">Department Name</label>
+            <input type="text" class="form-control" id="name" name="name" 
+                   value="{{ department.1|default:'' }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="hod_name">HOD Name</label>
+            <input type="text" class="form-control" id="hod_name" name="hod_name" 
+                   value="{{ department.2|default:'' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'department_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 {% endblock %}

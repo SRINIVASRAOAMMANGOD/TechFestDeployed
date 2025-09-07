@@ -1,0 +1,34 @@
+{% extends "festapp/base.html" %}
+
+{% block title %}Export Data{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2><i class="fas fa-file-export me-2"></i> Export Data</h2>
+    <p>Select the dataset you want to export:</p>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="model">Choose Data</label>
+            <select class="form-control" id="model" name="model" required>
+                <option value="" disabled selected>-- Select --</option>
+                <option value="Department">Departments</option>
+                <option value="Student">Students</option>
+                <option value="Venue">Venues</option>
+                <option value="Event">Events</option>
+                <option value="Registration">Registrations</option>
+                <option value="Winner">Winners</option>
+                <option value="Organizer">Organizers</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-download"></i> Export CSV
+        </button>
+    </form>
+</div>
+{% endblock %}

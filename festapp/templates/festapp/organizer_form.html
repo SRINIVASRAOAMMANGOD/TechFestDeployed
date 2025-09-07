@@ -1,8 +1,35 @@
-{% extends 'festapp/base.html' %}
+\HP\Desktop\techfest\festapp\templates\festapp\organizer_form.html -->
+{% extends "festapp/base.html" %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Organizer</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<h2>{% if organizer %}Edit{% else %}Add{% endif %} Organizer</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" class="form-control" value="{{ organizer.1|default:'' }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" name="phone" id="phone" class="form-control" value="{{ organizer.2|default:'' }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="event_id">Event</label>
+        <select name="event_id" id="event_id" class="form-control" required>
+            <option value="">Select Event</option>
+            {% for event in events %}
+            <option value="{{ event.0 }}" {% if organizer and organizer.3 == event.0 %}selected{% endif %}>
+                {{ event.1 }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'organizer_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
 {% endblock %}

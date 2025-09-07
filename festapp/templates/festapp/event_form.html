@@ -1,8 +1,49 @@
-{% extends 'festapp/base.html' %}
+{% extends "festapp/base.html" %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Event</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<div class="container mt-4">
+    <h2>{% if event %}Edit{% else %}Add{% endif %} Event</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group mb-3">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" 
+                   value="{{ event.1|default:'' }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" required>{{ event.2|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date" name="date" 
+                   value="{{ event.3|default:'' }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="venue_id">Venue</label>
+            <select class="form-select" id="venue_id" name="venue_id" required>
+                {% for v in venues %}
+                <option value="{{ v.0 }}" {% if event and v.0 == event.4 %}selected{% endif %}>{{ v.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="department_id">Department</label>
+            <select class="form-select" id="department_id" name="department_id" required>
+                {% for d in departments %}
+                <option value="{{ d.0 }}" {% if event and d.0 == event.5 %}selected{% endif %}>{{ d.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'event_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 {% endblock %}

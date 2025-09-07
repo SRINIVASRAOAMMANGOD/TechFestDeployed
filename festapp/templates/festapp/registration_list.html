@@ -1,39 +1,75 @@
-{% extends 'festapp/base.html' %}
+{% extends "festapp/base.html" %}
+
+{% block title %}Event Registrations{% endblock %}
 
 {% block content %}
-<h2>Registrations</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2><i class="fas fa-clipboard-list me-2"></i>Event Registrations</h2>
+        <!-- New Registration Button on RIGHT -->
+        {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'registration_create' %}" class="btn btn-primary mb-3">
+            <i class="fas fa-plus me-2"></i> Add Registration
+        </a>
+        {% endif %}
+    </div>
 
-{% if user.is_staff or user.is_superuser %}
-<a href="{% url 'registration_add' %}" class="btn btn-success mb-2">Add Registration</a>
-{% endif %}
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>STUDENT</th>
-            <th>EVENT</th>
-            {% if user.is_staff or user.is_superuser %}
-            <th>ACTIONS</th>
-            {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for reg in object_list %}
-        <tr>
-            <td>{{ reg.id }}</td>
-            <td>{{ reg.student.name }}</td>
-            <td>{{ reg.event.title }}</td>
-            {% if user.is_staff or user.is_superuser %}
-            <td>
-                <a href="{% url 'registration_edit' reg.id %}" class="btn btn-warning btn-sm">Edit</a>
-                <a href="{% url 'registration_delete' reg.id %}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-            {% endif %}
-        </tr>
-        {% empty %}
-        <tr><td colspan="4">No registrations found.</td></tr>
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fas fa-info-circle me-1"></i>{{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
+    {% endif %}
+
+    <!-- Registrations Table -->
+    {% if registrations %}
+    <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Student</th>
+                    <th>Roll Number</th>
+                    <th>Registration Date</th>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <th class="text-end">Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                <tr>
+                    <td>{{ reg.1 }}</td>
+                    <td>{{ reg.2 }}</td>
+                    <td>{{ reg.3 }}</td>
+                    <td>{{ reg.4|date:"d M Y" }}</td>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <td class="text-end">
+                        <a href="{% url 'registration_edit' reg.0 %}" class="btn btn-info btn-sm me-1">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{% url 'registration_delete' reg.0 %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash me-1"></i>Delete
+                            </button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>No registrations found.
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

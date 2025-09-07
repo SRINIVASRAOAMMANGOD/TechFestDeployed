@@ -1,0 +1,17 @@
+1.while deleteing each frogin key constarint interfere
+2.each back tab is preeeed it goes to prebios even thou action has been done
+Department ─────┐
+                │
+                ▼
+            Student ────────────────┐
+                                    │
+Venue ────────────────┐             │
+                      │             ▼
+                      ▼           Registration
+                    Event ─────┐    ▲
+                      │        │    │
+                      │        │    │
+                      ▼        ▼    │
+                  Winner    Organizer
+PROTECT / your safe_delete logic → prevents deletion, shows friendly error UI.
+date field expand then it will be correct

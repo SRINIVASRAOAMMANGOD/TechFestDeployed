@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        h2 {
+            color: #856404;
+        }
+        p {
+            color: #856404;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #856404;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        a:hover {
+            background-color: #704f03;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚠️ Cannot delete {{ object }}</h2>
+        <p>{{ reason }}</p>
+        <a href="javascript:history.back()">Back</a>
+    </div>
+</body>
+</html>

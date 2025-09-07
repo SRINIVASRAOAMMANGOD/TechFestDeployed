@@ -1,8 +1,33 @@
-{% extends 'festapp/base.html' %}
+<!-- filepath: c:\Users\HP\Desktop\techfest\festapp\templates\festapp\registration_form.html -->
+{% extends "festapp/base.html" %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Edit{% else %}Register{% endif %}</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<h2>Register for Event</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="event_id">Event</label>
+        <select name="event_id" id="event_id" class="form-control" required>
+            <option value="">Select Event</option>
+            {% for event in events %}
+            <option value="{{ event.0 }}">{{ event.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="student_id">Student</label>
+        <select name="student_id" id="student_id" class="form-control" required>
+            <option value="">Select Student</option>
+            {% for student in students %}
+            <option value="{{ student.0 }}">{{ student.1 }} ({{ student.2 }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+    <a href="{% url 'registration_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
 {% endblock %}
