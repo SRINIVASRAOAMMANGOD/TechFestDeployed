@@ -1,0 +1,113 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                    CSV IMPORT - QUICK REFERENCE                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+📍 ACCESS: Login → CSV Import (navigation menu)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ IMPORT ORDER (Follow this sequence!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 1. Departments  (no dependencies)
+ 2. Venues       (no dependencies)
+ 3. Students     (requires Departments)
+ 4. Events       (requires Departments + Venues)
+ 5. Registrations (requires Students + Events)
+ 6. Winners      (requires Students + Events)
+ 7. Organizers   (requires Events)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ CSV FORMATS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 📁 DEPARTMENTS
+    name,hod_name
+    Computer Science,Dr. Smith
+
+ 👤 STUDENTS
+    name,roll_number,email,department
+    John Doe,CS001,john@email.com,Computer Science
+
+ 🏛️ VENUES
+    name,location,capacity
+    Main Hall,Building A,500
+
+ 🎪 EVENTS
+    title,description,date,venue,department
+    Tech Talk,AI Workshop,2025-10-25,Main Hall,Computer Science
+
+ 📝 REGISTRATIONS
+    student_roll_number,event_title
+    CS001,Tech Talk
+
+ 🏆 WINNERS
+    event_title,student_roll_number,position
+    Tech Talk,CS001,1
+
+ 👔 ORGANIZERS
+    name,phone,event_title
+    Alice,1234567890,Tech Talk
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ IMPORTANT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ✓ First row = column headers (REQUIRED)
+ ✓ Headers are case-sensitive
+ ✓ Date format: YYYY-MM-DD (e.g., 2025-10-25)
+ ✓ Foreign keys: use exact names from database
+ ✓ File must be .csv extension
+ ✓ Use UTF-8 encoding
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SAMPLE FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 📂 Location: csv_samples/ folder
+ 
+ ✓ sample_departments.csv
+ ✓ sample_venues.csv
+ ✓ sample_students.csv
+ ✓ sample_events.csv
+ ✓ sample_registrations.csv
+ ✓ sample_winners.csv
+ ✓ sample_organizers.csv
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ QUICK TEST (Use sample files)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 1. CSV Import → Import Departments
+ 2. Upload: csv_samples/sample_departments.csv
+ 3. Repeat for other data types in order
+ 4. Check list pages to verify data
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ COMMON ERRORS & FIXES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ❌ "Department not found"
+    → Import departments first
+
+ ❌ "Duplicate roll number"
+    → Check for duplicates in CSV
+
+ ❌ "Invalid date format"
+    → Use YYYY-MM-DD format
+
+ ❌ "File is not CSV type"
+    → Save as .csv from Excel/Sheets
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ⚡ Smart error handling
+ 📊 Detailed success/error reporting
+ 📥 Sample template downloads
+ ✅ Format validation
+ 🔗 Foreign key support
+ 🔐 Admin-only access
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ NEED MORE HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 📖 CSV_IMPORT_README.md  - Quick start guide
+ 📚 CSV_IMPORT_GUIDE.md   - Detailed documentation
+ 🔍 Each import page shows format requirements
+
+╚══════════════════════════════════════════════════════════════════════╝

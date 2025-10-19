@@ -1,10 +1,8 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from . import views
-from festapp.views import health_check
-urlpatterns = [
-    path('health', health_check, name='health_check'),
 
+urlpatterns = [
     # Home Page
     path('', TemplateView.as_view(template_name='festapp/index.html'), name='index'),
 
@@ -73,4 +71,14 @@ path('winners/<int:pk>/delete/',
     path('organizers/<int:pk>/delete/', 
          lambda req, pk: views.safe_delete(req, "festapp", "Organizer", pk, "organizer_list", "organizer"),
          name="organizer_delete"),
+
+    # CSV Import
+    path('csv-import/', views.csv_import, name='csv_import'),
+    path('csv-import/departments/', views.import_department_csv, name='import_department_csv'),
+    path('csv-import/students/', views.import_student_csv, name='import_student_csv'),
+    path('csv-import/venues/', views.import_venue_csv, name='import_venue_csv'),
+    path('csv-import/events/', views.import_event_csv, name='import_event_csv'),
+    path('csv-import/registrations/', views.import_registration_csv, name='import_registration_csv'),
+    path('csv-import/winners/', views.import_winner_csv, name='import_winner_csv'),
+    path('csv-import/organizers/', views.import_organizer_csv, name='import_organizer_csv'),
 ]

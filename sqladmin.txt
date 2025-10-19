@@ -1,0 +1,3 @@
+USE techfest_db;
+SELECT id, username, is_superuser, is_staff, email, date_joined FROM auth_user;
+AVNS_ywkfGVI8ZSYmi8BnPpj

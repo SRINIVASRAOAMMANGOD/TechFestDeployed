@@ -41,3 +41,11 @@ class OrganizerForm(forms.ModelForm):
     class Meta:
         model = Organizer
         fields = ['name', 'phone', 'event']
+
+
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField(
+        label='Select CSV File',
+        help_text='Upload a CSV file to import data',
+        widget=forms.FileInput(attrs={'accept': '.csv'})
+    )

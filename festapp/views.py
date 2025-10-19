@@ -7,13 +7,19 @@ from django.apps import apps
 from django.contrib.auth import authenticate, login, logout
 from .models import Winner  # Import Winner model
 import csv
-from django.http import HttpResponse
+import io
+from datetime import datetime
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import Department, Student, Venue, Event, Registration, Winner, Organizer
-from django.http import HttpResponse
+from .forms import CSVUploadForm
 
+# =======================
+# Health Check
+# =======================
 def health_check(request):
-    return HttpResponse("OK")
+    """Simple health check endpoint for deployment monitoring"""
+    return JsonResponse({"status": "ok", "message": "Application is running"})
 
 def export_data(request):
     if request.method == "POST":
@@ -703,3 +709,442 @@ def organizer_update(request, pk):
 @user_passes_test(is_admin)
 def organizer_delete(request, pk):
     return safe_delete(request, "festapp", "Organizer", pk, "organizer_list", "organizer")
+
+
+# =======================
+# CSV Import Functionality
+# =======================
+@login_required
+@user_passes_test(is_admin)
+def csv_import(request):
+    """Main CSV import page to select model type"""
+    return render(request, 'festapp/csv_import.html')
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_department_csv(request):
+    """Import departments from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_department_csv')
+            
+            try:
+                # Read CSV file
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        Department.objects.create(
+                            name=row['name'],
+                            hod_name=row['hod_name']
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} departments')
+                if error_count > 0:
+                    for error in errors[:5]:  # Show first 5 errors
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('department_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_department_csv')
+    else:
+        form = CSVUploadForm()
+    
+    # CSV format example
+    csv_format = "name,hod_name\nComputer Science,Dr. Smith\nElectronics,Dr. Johnson"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Department',
+        'csv_format': csv_format,
+        'fields': 'name, hod_name'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_student_csv(request):
+    """Import students from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_student_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        department = Department.objects.get(name=row['department'])
+                        Student.objects.create(
+                            name=row['name'],
+                            roll_number=row['roll_number'],
+                            email=row['email'],
+                            department=department
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} students')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('student_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_student_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "name,roll_number,email,department\nJohn Doe,CS001,john@example.com,Computer Science\nJane Smith,CS002,jane@example.com,Electronics"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Student',
+        'csv_format': csv_format,
+        'fields': 'name, roll_number, email, department (department name must exist)'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_venue_csv(request):
+    """Import venues from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_venue_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        Venue.objects.create(
+                            name=row['name'],
+                            location=row['location'],
+                            capacity=int(row['capacity'])
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} venues')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('venue_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_venue_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "name,location,capacity\nMain Hall,Building A,500\nAuditorium,Building B,1000"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Venue',
+        'csv_format': csv_format,
+        'fields': 'name, location, capacity (integer)'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_event_csv(request):
+    """Import events from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_event_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        venue = Venue.objects.get(name=row['venue']) if row.get('venue') else None
+                        department = Department.objects.get(name=row['department'])
+                        
+                        Event.objects.create(
+                            title=row['title'],
+                            description=row['description'],
+                            date=datetime.strptime(row['date'], '%Y-%m-%d').date(),
+                            venue=venue,
+                            department=department
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} events')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('event_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_event_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "title,description,date,venue,department\nCoding Contest,Programming competition,2025-10-25,Main Hall,Computer Science\nRobotics,Robot building event,2025-10-26,Auditorium,Electronics"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Event',
+        'csv_format': csv_format,
+        'fields': 'title, description, date (YYYY-MM-DD), venue (optional, must exist), department (must exist)'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_registration_csv(request):
+    """Import registrations from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_registration_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        student = Student.objects.get(roll_number=row['student_roll_number'])
+                        event = Event.objects.get(title=row['event_title'])
+                        
+                        Registration.objects.create(
+                            student=student,
+                            event=event
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} registrations')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('registration_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_registration_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "student_roll_number,event_title\nCS001,Coding Contest\nCS002,Robotics"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Registration',
+        'csv_format': csv_format,
+        'fields': 'student_roll_number (must exist), event_title (must exist)'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_winner_csv(request):
+    """Import winners from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_winner_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        event = Event.objects.get(title=row['event_title'])
+                        student = Student.objects.get(roll_number=row['student_roll_number'])
+                        
+                        Winner.objects.create(
+                            event=event,
+                            student=student,
+                            position=int(row['position'])
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} winners')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('winner_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_winner_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "event_title,student_roll_number,position\nCoding Contest,CS001,1\nCoding Contest,CS002,2"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Winner',
+        'csv_format': csv_format,
+        'fields': 'event_title (must exist), student_roll_number (must exist), position (integer)'
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def import_organizer_csv(request):
+    """Import organizers from CSV"""
+    if request.method == 'POST':
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['csv_file']
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.error(request, 'File is not CSV type')
+                return redirect('import_organizer_csv')
+            
+            try:
+                decoded_file = csv_file.read().decode('utf-8')
+                io_string = io.StringIO(decoded_file)
+                csv_reader = csv.DictReader(io_string)
+                
+                success_count = 0
+                error_count = 0
+                errors = []
+                
+                for row in csv_reader:
+                    try:
+                        event = Event.objects.get(title=row['event_title'])
+                        
+                        Organizer.objects.create(
+                            name=row['name'],
+                            phone=row['phone'],
+                            event=event
+                        )
+                        success_count += 1
+                    except Exception as e:
+                        error_count += 1
+                        errors.append(f"Row {csv_reader.line_num}: {str(e)}")
+                
+                if success_count > 0:
+                    messages.success(request, f'Successfully imported {success_count} organizers')
+                if error_count > 0:
+                    for error in errors[:5]:
+                        messages.warning(request, error)
+                    if len(errors) > 5:
+                        messages.warning(request, f'... and {len(errors) - 5} more errors')
+                
+                return redirect('organizer_list')
+                
+            except Exception as e:
+                messages.error(request, f'Error processing CSV: {str(e)}')
+                return redirect('import_organizer_csv')
+    else:
+        form = CSVUploadForm()
+    
+    csv_format = "name,phone,event_title\nAlice Brown,1234567890,Coding Contest\nBob Wilson,0987654321,Robotics"
+    return render(request, 'festapp/csv_import_form.html', {
+        'form': form,
+        'model_name': 'Organizer',
+        'csv_format': csv_format,
+        'fields': 'name, phone, event_title (must exist)'
+    })
+

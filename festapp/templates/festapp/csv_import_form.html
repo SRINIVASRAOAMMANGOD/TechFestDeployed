@@ -1,0 +1,91 @@
+{% extends "festapp/base.html" %}
+
+{% block title %}Import {{ model_name }} - TechFest{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Import {{ model_name }} from CSV</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-upload"></i> Upload CSV File</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-upload"></i> Upload and Import
+                        </button>
+                        <a href="{% url 'csv_import' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> CSV Format Requirements</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Required Fields:</strong></p>
+                    <p class="text-muted">{{ fields }}</p>
+                    
+                    <p class="mt-3"><strong>Example CSV Format:</strong></p>
+                    <pre class="bg-light p-3 rounded"><code>{{ csv_format }}</code></pre>
+                    
+                    <div class="alert alert-warning mt-3">
+                        <strong>Important Notes:</strong>
+                        <ul class="mb-0">
+                            <li>First row must contain column headers</li>
+                            <li>Headers must match exactly (case-sensitive)</li>
+                            <li>Foreign key fields must reference existing records</li>
+                            <li>Date format: YYYY-MM-DD</li>
+                            <li>Empty lines will be skipped</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-3">
+                        <h6>Download Sample CSV Template:</h6>
+                        <button class="btn btn-sm btn-outline-primary" onclick="downloadSample()">
+                            <i class="bi bi-download"></i> Download Sample
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function downloadSample() {
+    const csvContent = "{{ csv_format|escapejs }}";
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '{{ model_name }}_sample.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
+</script>
+
+{% endblock %}

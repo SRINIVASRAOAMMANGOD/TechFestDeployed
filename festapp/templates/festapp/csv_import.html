@@ -1,0 +1,112 @@
+{% extends "festapp/base.html" %}
+
+{% block title %}CSV Import - TechFest{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Import Data from CSV</h2>
+    
+    <div class="alert alert-info">
+        <h5><i class="bi bi-info-circle"></i> CSV Import Instructions</h5>
+        <p>Select the type of data you want to import. Each import page will show you the required CSV format.</p>
+        <ul>
+            <li>Make sure your CSV file has headers matching the required format</li>
+            <li>For foreign key fields, use the exact names as they appear in the database</li>
+            <li>Dates should be in YYYY-MM-DD format</li>
+            <li>The system will skip rows with errors and report them to you</li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-building"></i> Import Departments</h5>
+                    <p class="card-text">Import multiple departments at once</p>
+                    <a href="{% url 'import_department_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Departments
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-person"></i> Import Students</h5>
+                    <p class="card-text">Import multiple students at once</p>
+                    <a href="{% url 'import_student_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Students
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-geo-alt"></i> Import Venues</h5>
+                    <p class="card-text">Import multiple venues at once</p>
+                    <a href="{% url 'import_venue_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Venues
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-event"></i> Import Events</h5>
+                    <p class="card-text">Import multiple events at once</p>
+                    <a href="{% url 'import_event_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Events
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-checklist"></i> Import Registrations</h5>
+                    <p class="card-text">Import multiple registrations at once</p>
+                    <a href="{% url 'import_registration_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Registrations
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-trophy"></i> Import Winners</h5>
+                    <p class="card-text">Import multiple winners at once</p>
+                    <a href="{% url 'import_winner_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Winners
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people"></i> Import Organizers</h5>
+                    <p class="card-text">Import multiple organizers at once</p>
+                    <a href="{% url 'import_organizer_csv' %}" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Import Organizers
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'index' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}
