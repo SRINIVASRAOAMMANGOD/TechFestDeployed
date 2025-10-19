@@ -106,10 +106,16 @@
     <div class="container">
         <!-- Brand -->
         <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
-            <i class="fas fa-laptop-code me-2"></i>Tech Fest LBS College of Engineering
-            {% if user.is_authenticated and user.is_superuser %}
+            {% comment %} <i class="fas fa-laptop-code me-2"></i> {% endcomment %}
+            {% comment %} <i class="fas fa-laptop-code me-2"></i>Tech Fest LBS College of Engineering {% endcomment %}
+ {% comment %} <img src="{% static 'images/LBSLogoWhite.png' %}" class="me-2" style="height: 40px;" > {% endcomment %}
+{% load static %}
+<img src="{% static 'images/LBSLogoWhite.png' %}" alt="Tech Fest Logo" style="height: 40px;">
+Tech Fest LBS College of Engineering
+            
+            {% comment %} {% if user.is_authenticated and user.is_superuser %}
                 <span class="badge bg-warning text-dark ms-2">Admin</span>
-            {% endif %}
+            {% endif %} {% endcomment %}
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -145,6 +151,13 @@
             </ul>
         </li>
 
+        <!-- ✅ CSV Import -->
+        <li class="nav-item">
+            <a class="nav-link {% if 'csv_import' in request.resolver_match.url_name or 'import_' in request.resolver_match.url_name %}active-nav{% endif %}" href="{% url 'csv_import' %}">
+                <i class="fas fa-file-import me-1"></i> CSV Import
+            </a>
+        </li>
+
         <!-- ✅ Export Data -->
         <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'export_data' %}active-nav{% endif %}" href="{% url 'export_data' %}">
@@ -152,12 +165,7 @@
             </a>
         </li>
 
-        <!-- ✅ CSV Import -->
-        <li class="nav-item">
-            <a class="nav-link {% if 'csv_import' in request.resolver_match.url_name or 'import_' in request.resolver_match.url_name %}active-nav{% endif %}" href="{% url 'csv_import' %}">
-                <i class="fas fa-file-import me-1"></i> CSV Import
-            </a>
-        </li>
+        
         {% endif %}
     </ul>
     {% endif %}
@@ -225,11 +233,11 @@
 
         <!-- Right side -->
         <div>
-            <span class="me-3">Developed with <i class="fas fa-heart text-danger"></i> by Your Name</span>
-            <a href="#" class="text-light me-2"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-light me-2"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-light me-2"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="text-light"><i class="fab fa-github"></i></a>
+            <span class="me-3">Developed with Django  </span>
+            
+            
+            <a href="https://www.linkedin.com/in/srinivasammangod" class="text-light me-2"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/SRINIVASRAOAMMANGOD/TechFestDeployed" class="text-light"><i class="fab fa-github"></i></a>
         </div>
     </div>
 </footer>

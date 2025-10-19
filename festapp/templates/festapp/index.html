@@ -89,6 +89,17 @@
         </a>
     </div>
     {% if user.is_authenticated and user.is_staff %}
+<!-- Card: CSV Import -->
+<div class="col">
+    <a href="{% url 'csv_import' %}" class="text-decoration-none text-dark">
+        <div class="card h-100 text-center shadow-sm hover-shadow">
+            <div class="card-body">
+                <h5 class="card-title">📥 CSV Import</h5>
+                <p class="card-text">Bulk import data from CSV files.</p>
+            </div>
+        </div>
+    </a>
+</div>
 <div class="col-md-4">
     <div class="card text-center shadow-lg">
         <div class="card-body">
@@ -101,17 +112,7 @@
     </div>
 </div>
 
-<!-- Card: CSV Import -->
-<div class="col">
-    <a href="{% url 'csv_import' %}" class="text-decoration-none text-dark">
-        <div class="card h-100 text-center shadow-sm hover-shadow">
-            <div class="card-body">
-                <h5 class="card-title">📥 CSV Import</h5>
-                <p class="card-text">Bulk import data from CSV files.</p>
-            </div>
-        </div>
-    </a>
-</div>
+
 {% endif %}
 
 </div>
