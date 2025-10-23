@@ -1,0 +1,54 @@
+mysql> use techfest_db;
+Database changed
+mysql> show tables;
++----------------------------+
+| Tables_in_techfest_db      |
++----------------------------+
+| auth_group                 |
+| auth_group_permissions     |
+| auth_permission            |
+| auth_user                  |
+| auth_user_groups           |
+| auth_user_user_permissions |
+| department                 |
+| django_admin_log           |
+| django_content_type        |
+| django_migrations          |
+| django_session             |
+| event                      |
+| organizer                  |
+| registration               |
+| student                    |
+| venue                      |
+| winner                     |
++----------------------------+
+17 rows in set (0.00 sec)
+
+ select * from department;
++----+-------------------------------+------------------+
+| id | name                          | hod_name         |
++----+-------------------------------+------------------+
+|  2 | Electrical Engineering        | Dr. Nikola Tesla |
+|  7 | Computer Science              | Dr. Rajesh Kumar |
+|  8 | Electronics and Communication | Dr. Priya Sharma |
+|  9 | Mechanical Engineering        | Dr. Anil Verma   |
+| 10 | Civil Engineering             | Dr. Sunita Patel |
+| 11 | Information Technology        | Dr. Amit Singh   |
++----+-------------------------------+------------------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from venue;
++----+------------------+------------------------------+----------+
+| id | name             | location                     | capacity |
++----+------------------+------------------------------+----------+
+|  1 | 1                | Main Auditorium              |      565 |
+|  2 | Seminar Hall     | Block B                      |      100 |
+|  5 | Main Auditorium  | Central Block - Ground Floor |     1000 |
+|  6 | Seminar Hall A   | Academic Block - 2nd Floor   |      200 |
+|  7 | Conference Room  | Admin Block - 1st Floor      |       50 |
+|  8 | Open Air Theatre | Campus Ground                |     2000 |
+|  9 | Computer Lab 1   | IT Block - 3rd Floor         |       60 |
+| 10 | Electronics Lab  | EC Block - 2nd Floor         |       40 |
++----+------------------+------------------------------+----------+
+8 rows in set (0.00 sec)
