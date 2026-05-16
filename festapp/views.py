@@ -175,6 +175,11 @@ def is_admin(user):
     return user.is_superuser or user.is_staff
 
 
+def can_edit(user):
+    """Allow both admins and general users to perform CRUD operations"""
+    return user.is_superuser or user.is_staff or user.groups.filter(name='GeneralUsers').exists()
+
+
 # =======================
 # Department
 # =======================
@@ -186,7 +191,7 @@ def department_list(request):
     return render(request, "festapp/department_list.html", {"departments": departments})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def department_create(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -200,7 +205,7 @@ def department_create(request):
     return render(request, "festapp/department_form.html")
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def department_update(request, pk):
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, name, hod_name FROM department WHERE id=%s", [pk])
@@ -222,7 +227,7 @@ def department_update(request, pk):
 
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def department_delete(request, pk):
     return safe_delete(request, "festapp", "Department", pk, "department_list", "department")
 
@@ -243,7 +248,7 @@ def student_list(request):
     return render(request, "festapp/student_list.html", {"students": students})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def student_create(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -272,7 +277,7 @@ def student_create(request):
     return render(request, "festapp/student_form.html", {"departments": departments})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def student_update(request, pk):
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, name, roll_number, email, department_id FROM student WHERE id=%s", [pk])
@@ -298,7 +303,7 @@ def student_update(request, pk):
 
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def student_delete(request, pk):
     return safe_delete(request, "festapp", "Student", pk, "student_list", "student")
 
@@ -314,7 +319,7 @@ def venue_list(request):
     return render(request, "festapp/venue_list.html", {"venues": venues})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def venue_create(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -333,7 +338,7 @@ def venue_create(request):
     return render(request, "festapp/venue_form.html")
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def venue_update(request, pk):
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, name, location, capacity FROM venue WHERE id=%s", [pk])
@@ -355,7 +360,7 @@ def venue_update(request, pk):
     return render(request, "festapp/venue_form.html", {"venue": venue})
 
 
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def venue_delete(request, pk):
     return safe_delete(request, "festapp", "Venue", pk, "venue_list", "venue")
 
@@ -379,7 +384,7 @@ def event_list(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def event_create(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -407,7 +412,7 @@ def event_create(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def event_update(request, pk):
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, title, description, date, venue_id, department_id FROM event WHERE id=%s", [pk])
@@ -437,7 +442,7 @@ def event_update(request, pk):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def event_delete(request, pk):
     return safe_delete(request, "festapp", "Event", pk, "event_list", "event")
 
@@ -461,7 +466,7 @@ def registration_list(request):
 # Registration Update
 # =======================
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def registration_update(request, pk):
     if request.method == "POST":
         event_id = request.POST.get("event_id")
@@ -493,7 +498,7 @@ def registration_update(request, pk):
 # Winner Update
 # =======================
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def winner_update(request, pk):
     if request.method == "POST":
         event_id = request.POST.get("event_id")
@@ -555,18 +560,18 @@ def registration_create(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def registration_delete(request, pk):
     return safe_delete(request, "festapp", "Registration", pk, "registration_list", "registration")
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def registration_delete(request, pk):
     return safe_delete(request, "festapp", "Registration", pk, "registration_list", "registration")
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def registration_update(request, pk):
     if request.method == "POST":
         event_id = request.POST.get("event_id")
@@ -607,7 +612,7 @@ def winner_list(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def winner_create(request):
     if request.method == "POST":
         event_id = request.POST.get("event_id")
@@ -637,7 +642,7 @@ def winner_create(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def winner_delete(request, pk):
     return safe_delete(request, "festapp", "Winner", pk, "winner_list", "winner")
 
@@ -659,7 +664,7 @@ def organizer_list(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def organizer_create(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -680,7 +685,7 @@ def organizer_create(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def organizer_update(request, pk):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -706,7 +711,7 @@ def organizer_update(request, pk):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def organizer_delete(request, pk):
     return safe_delete(request, "festapp", "Organizer", pk, "organizer_list", "organizer")
 
@@ -715,14 +720,14 @@ def organizer_delete(request, pk):
 # CSV Import Functionality
 # =======================
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def csv_import(request):
     """Main CSV import page to select model type"""
     return render(request, 'festapp/csv_import.html')
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_department_csv(request):
     """Import departments from CSV"""
     if request.method == 'POST':
@@ -782,7 +787,7 @@ def import_department_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_student_csv(request):
     """Import students from CSV"""
     if request.method == 'POST':
@@ -843,7 +848,7 @@ def import_student_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_venue_csv(request):
     """Import venues from CSV"""
     if request.method == 'POST':
@@ -902,7 +907,7 @@ def import_venue_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_event_csv(request):
     """Import events from CSV"""
     if request.method == 'POST':
@@ -966,7 +971,7 @@ def import_event_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_registration_csv(request):
     """Import registrations from CSV"""
     if request.method == 'POST':
@@ -1027,7 +1032,7 @@ def import_registration_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_winner_csv(request):
     """Import winners from CSV"""
     if request.method == 'POST':
@@ -1089,7 +1094,7 @@ def import_winner_csv(request):
 
 
 @login_required
-@user_passes_test(is_admin)
+@user_passes_test(can_edit)
 def import_organizer_csv(request):
     """Import organizers from CSV"""
     if request.method == 'POST':

@@ -1,4 +1,5 @@
 {% extends "festapp/base.html" %}
+{% load custom_filters %}
 
 {% block title %}Students{% endblock %}
 
@@ -7,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2><i class="fas fa-user-graduate me-2"></i>Students</h2>
         <!-- Add Student Button for Admin -->
-        {% if user.is_authenticated and user.is_staff %}
+        {% if user|can_edit %}
         <a href="{% url 'student_add' %}" class="btn btn-primary mb-3">
             <i class="fas fa-plus me-2"></i> Add Student
         </a>
@@ -36,7 +37,7 @@
                     <th>Roll Number</th>
                     <th>Email</th>
                     <th>Department</th>
-                    {% if user.is_authenticated and user.is_staff %}
+                    {% if user|can_edit %}
                     <th class="text-end">Actions</th>
                     {% endif %}
                 </tr>
@@ -48,7 +49,7 @@
                     <td>{{ student.2 }}</td>
                     <td>{{ student.3 }}</td>
                     <td>{{ student.4 }}</td>
-                    {% if user.is_authenticated and user.is_staff %}
+                    {% if user|can_edit %}
                     <td class="text-end">
                         <a href="{% url 'student_edit' student.0 %}" class="btn btn-sm btn-info me-2">
                             <i class="fas fa-edit me-1"></i>Edit

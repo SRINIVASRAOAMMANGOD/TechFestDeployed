@@ -1,7 +1,42 @@
 {% extends 'festapp/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <h1 class="text-center mb-4">Welcome to the Tech Fest Management System</h1>
+
+<!-- Demo Credentials for Public Users -->
+{% if not user.is_authenticated %}
+<div class="card shadow-lg mb-4 border-primary border-2" style="background-color: #1f1f1f; color: #e0e0e0;">
+    <div class="card-body p-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h5 class="card-title mb-3" style="color: #0d6efd;"><i class="fas fa-lock-open me-2"></i>Demo Access Credentials</h5>
+                <p class="mb-3">Log in with the following credentials to explore the system:</p>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <div class="p-3" style="background-color: #121212; border-radius: 0.5rem;">
+                            <strong style="color: #0d6efd;">Username:</strong><br>
+                            <code style="color: #81c784;">generaluser</code>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <div class="p-3" style="background-color: #121212; border-radius: 0.5rem;">
+                            <strong style="color: #0d6efd;">Password:</strong><br>
+                            <code style="color: #81c784;">generaluser</code>
+                        </div>
+                    </div>
+                </div>
+                <small style="color: #b0bec5;" class="mt-3 d-block">You can perform all CRUD operations | Admin panel access is restricted</small>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
 
@@ -88,7 +123,7 @@
             </div>
         </a>
     </div>
-    {% if user.is_authenticated and user.is_staff %}
+    {% if user|can_edit %}
 <!-- Card: CSV Import -->
 <div class="col">
     <a href="{% url 'csv_import' %}" class="text-decoration-none text-dark">
