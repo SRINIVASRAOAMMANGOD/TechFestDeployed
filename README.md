@@ -5,7 +5,7 @@ A comprehensive web-based platform built using Django to manage Tech Fest activi
 The system allows departments to create events, students to register, organizers to manage activities, and winners to be recorded. It demonstrates advanced DBMS concepts with MySQL integration, referential integrity, and complex querying.
 
 ## 🌐 Deployed Link
-**Live Demo:** [https://dbmsdeplaoylive.onrender.com/](https://dbmsdeplaoylive.onrender.com/)](https://tech-fest-management-lbscek.onrender.com/)
+**Live Demo:** [(https://dbmsdeplaoylive.onrender.com/)](https://tech-fest-management-lbscek.onrender.com/)
 
 ---
 
